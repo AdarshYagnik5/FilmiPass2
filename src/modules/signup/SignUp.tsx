@@ -10,7 +10,7 @@ interface signUp {
     firstName: string;
     lastName: string;
     email: string;
-    mobileNumber: string;
+    phoneNumber: string;
     password: string;
     enable: boolean;
 }
@@ -20,16 +20,30 @@ const SignUp = () => {
         firstName: '',
         lastName: '',
         email: '',
-        mobileNumber: '',
+        phoneNumber: '',
         password: '',
         enable: true
     });
     const navigate = useNavigate();
+    console.log("userDtails",userDetails)
 
  
     const handleSubmit = async () => {
-        
-        console.log('submit');
+        try {
+            const response = await fetch("http://localhost:8080/auth/create-user", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(userDetails),
+            });
+
+            if (response.ok) {
+                navigate("/auth/login");
+            }
+        } catch (error) {
+            console.error("Sign-up failed:", error);
+        }
     };
 
 
@@ -43,8 +57,8 @@ const SignUp = () => {
         if (e.target.name === 'email') {
             setUserDetails(prevDetails => ({ ...prevDetails, email: e.target.value }));
         }
-        if (e.target.name === 'mobileNumber') {
-            setUserDetails(prevDetails => ({ ...prevDetails, mobileNumber: e.target.value }));
+        if (e.target.name === 'phoneNumber') {
+            setUserDetails(prevDetails => ({ ...prevDetails, phoneNumber: e.target.value }));
         }
         if (e.target.name === 'password') {
             setUserDetails(prevDetails => ({ ...prevDetails, password: e.target.value }));
@@ -104,12 +118,12 @@ const SignUp = () => {
                                 style={{ height: '40px' }}
                             />
                             <TextField
-                                id={'mobileNumber'}
-                                name="mobileNumber"
+                                id={'phoneNumber'}
+                                name="phoneNumber"
                                 label="Mobile Number"
                                 placeholder="Enter Mobile Number"
                                 required={true}
-                                value={userDetails?.mobileNumber}
+                                value={userDetails?.phoneNumber}
                                 handleChange={handleChange}
                                 gap={'5px'}
                                 style={{ height: '40px' }}
