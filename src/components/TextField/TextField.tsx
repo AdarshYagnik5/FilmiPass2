@@ -104,7 +104,7 @@ export const TextField: React.FC<TextFieldProps> = (props: TextFieldProps) => {
         endAdornment={endAdornment}
         placeholder={placeholder}
         fullWidth
-        type={type === 'password' ? 'password' : 'text'}
+        type={type ? type : 'text'}
         style={style}
         readOnly={readOnly}
         multiline={multiline}

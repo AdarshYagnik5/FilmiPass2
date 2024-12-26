@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Toolbar } from '@mui/material';
 import { EndIconContainer, Headerstyle } from './Header.styled';
-import { useLocation, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import Button from '../Button/Button';
 
 export interface HeaderProps {
@@ -10,37 +10,23 @@ export interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const currentUrl = location.pathname;
   const handleLogout = () => {
     localStorage.removeItem('token');
-    navigate('/auth/login');
+    navigate('/login');
   }
 
   return (
-    <Box sx={{ padding: '0px' }}>
-      <Headerstyle elevation={7}>
+    <Box sx={{ padding: '0px', backgroundColor: '#0046ffc7' }}>
+      <Headerstyle elevation={7} sx={{ backgroundColor: '#0046ffc7' }}>
         <Toolbar sx={{ paddingLeft: '0px' }}>
-          <Box sx={{ paddingLeft: '0px', marginLeft:"-15px", display:"flex"}}>
-          <Box>
-                Filmi pass
-              </Box>
+          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
+            <Box sx={{fontWeight: 800, fontSize: '25px', color: 'white'}}>
+              Filmi Pass
+            </Box>
           </Box>
           <EndIconContainer>
-            <Box sx={{marginTop:'-10'}}>
-          {currentUrl === '/settings' ? (
-              <Box>
-                Filmi pass
-              </Box>
-            ) : (
-
-             <Box>
-                Filmi pass
-              </Box>
-            )}
-            </Box>
-            <Box>
-              <Button text={'Logout'} onClick={handleLogout}></Button>
+            <Box >
+              <Button text={'Logout'} onClick={handleLogout} css={{fontWeight:700, color:'white'}}></Button>
             </Box>
           </EndIconContainer>
         </Toolbar>
