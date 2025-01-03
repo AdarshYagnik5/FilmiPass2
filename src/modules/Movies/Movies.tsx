@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import apiService from "../Api/ApiService";
 import { useNavigate } from "react-router-dom";
-import { Box } from "@mui/material";
+import { Box, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import Popup from "../../components/Popup/Popup";
 import Button from "../../components/Button/Button";
 import AddMovieForm from "./AddMovie";
@@ -32,12 +32,13 @@ const Movies = () => {
     const navigate = useNavigate();
     const [deleteId, setDeleteId] = useState<number>();
     const [refreshScreen, setRefreshScreen] = useState(false);
+    const [location, setLocation] = useState("Hyderabad");
 
     useEffect(() => {
         const fetchMovies = async () => {
             try {
-                const response = await apiService.get("/filmipass/movies");
-                setMovies(response);  
+                const response = await apiService.get(`/filmipass/movies/loc/${location}`);
+                setMovies(response);
             } catch (err: any) {
                 setError(err.message || "An error occurred while fetching movies.");
             } finally {
@@ -46,12 +47,12 @@ const Movies = () => {
         };
 
         fetchMovies();
-    }, [refreshScreen]); 
+    }, [location, refreshScreen]);
 
     console.log("Movies", movies, refreshScreen)
 
     const handleBookMovie = () => {
-        navigate('/Screen-time');
+        navigate('/Screen-time', { state: { location } });
         setMovieOpenPopup(true);
     };
 
@@ -69,12 +70,12 @@ const Movies = () => {
             if (deleteId) {
                 const response = await apiService.delete(`/filmipass/movies/delete/${deleteId}`);
                 console.log("Movie deleted successfully:", response);
-                setRefreshScreen(prev => !prev);  
+                setRefreshScreen(prev => !prev);
                 handleClosePopup();
             }
         } catch (error) {
             console.error("Failed to delete movie:", error);
-            setRefreshScreen(prev => !prev);  
+            setRefreshScreen(prev => !prev);
             handleClosePopup();
         }
     };
@@ -84,15 +85,33 @@ const Movies = () => {
         setMovieOpenPopup(false);
     };
 
+    const handleChangeLoc = (event: SelectChangeEvent) => {
+        setLocation(event.target.value as string);
+      };
+
     if (loading) return <Typography>Loading...</Typography>;
     if (error) return <Typography>Error: {error}</Typography>;
 
-   
+
 
     return (
         <Box>
             <Box sx={{ display: "flex", justifyContent: 'end', marginTop: '10px' }}>
                 <Button size="small" onClick={handleAddMovie} variant="primary" text={"Add Movie"} />
+            </Box>
+            <Box sx={{marginLeft: '23px'}}>
+            <InputLabel  id="demo-simple-select-label">Location</InputLabel>
+            <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={location}
+                label="Location"
+                onChange={handleChangeLoc}
+            >
+                <MenuItem value={"Bhopal"}>Bhopal</MenuItem>
+                <MenuItem value={"Indore"}>Indore</MenuItem>
+                <MenuItem value={"Hyderabad"}>Hyderabad</MenuItem>
+            </Select>
             </Box>
             <Grid container spacing={3} padding={3}>
                 {movies?.map((movie) => (
@@ -128,9 +147,10 @@ const Movies = () => {
                     </Grid>
                 ))}
             </Grid>
+            
             <Popup open={openPopup} onClose={handleClosePopup} showButton={true} heading={"Delete Movie"} submitText={"Confirm Delete"} text="Are You Sure You want to Delete the Movie" handleSubmit={handleConfirmDelete} />
             <Popup open={AddMoviePopup} onClose={handleClosePopup} heading={"Add Movie"} >
-                <AddMovieForm handleClosePopup={handleClosePopup} refreshScreen={refreshScreen} setRefreshScreen={setRefreshScreen}/>
+                <AddMovieForm handleClosePopup={handleClosePopup} refreshScreen={refreshScreen} setRefreshScreen={setRefreshScreen} />
             </Popup>
         </Box>
     );

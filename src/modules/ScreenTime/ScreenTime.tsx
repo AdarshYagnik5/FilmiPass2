@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import apiService from "../Api/ApiService";
 import { Box } from "@mui/material";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface Theatre {
     theaterId: number;
@@ -9,27 +11,28 @@ interface Theatre {
     capacity: number;
     ticketPrice: number;
     movieId: number;
+    showtimes: Showtime[]; // Include showtimes in the Theatre interface
 }
 
 interface Showtime {
     showtimeId: number;
-    movieId: number;
-    theaterId: number;
-    showTime: string;
     showDate: string;
+    showTime: string;
 }
 
 const ScreenTime = () => {
-    const [theater, setTheater] = useState<Theatre[]>([]);
+    const [theaters, setTheaters] = useState<Theatre[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    const [showtimes, setShowTimes] = useState<Showtime[]>([]);
+    const statelocation = useLocation();
+    const navigate = useNavigate();
+    const { location } = statelocation.state || {};
 
     useEffect(() => {
         const fetchMovies = async () => {
             try {
-                const response = await apiService.get(`/filmipass/theater/Bhopal`);
-                setTheater(response);
+                const response = await apiService.get(`/filmipass/theater/${location}`);
+                setTheaters(response); 
             } catch (err: any) {
                 setError(err.message || "An error occurred while fetching movies.");
             } finally {
@@ -40,78 +43,67 @@ const ScreenTime = () => {
         fetchMovies();
     }, []);
 
-    useEffect(() => {
-        const fetchShowtimes = async () => {
-            try {
-                const response = await apiService.get(`/filmipass/showtime/theater/1`);
-                setShowTimes(response);
-            } catch (err: any) {
-                setError(err.message || "An error occurred while fetching showtimes.");
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchShowtimes();
-    }, []);
-
-    const handleShowTimes = (theatreId: number, showtime: string) => {
-        console.log("clicked", theatreId, showtime);
+    const handleShowTimes = (theaterId: number, showtime: string) => {
+        console.log("Clicked:", theaterId, showtime);
+        navigate('/seats', { state: { theaterId, showtime, theaters } });
     };
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
 
     return (
         <div>
-            {theater.map((theatre) => (
-                console.log("theatre.theatreId", theatre.theaterId),
+            {theaters.map((theater) => (
                 <Box
-                    key={theatre.theaterId}
+                    key={theater.theaterId}
                     sx={{
                         backgroundColor: "white",
                         marginTop: "14px",
                         height: "150px",
                         border: "2px solid black",
+                        padding: "10px",
                     }}
-                    gap={2}
                 >
                     <Box
                         sx={{
                             fontWeight: 700,
                             fontSize: "22px",
                             backgroundColor: "pink",
+                            padding: "10px",
                         }}
                     >
-                        {theatre.theaterName}
+                        {theater.theaterName}
                     </Box>
-                    <Box sx={{ display: "flex" }}>
-                    
-                        {showtimes.filter((showtime)=> showtime.theaterId == theatre.theaterId).map((times) => (
-                            
-                            
-                            
-                            <Box
-                                key={times.showtimeId}
-                                sx={{
-                                    border: "1px solid blue",
-                                    width: "100px",
-                                    height: "40px",
-                                    marginRight: "4px",
-                                    "&:hover": { backgroundColor: "#83cffa" },
-                                }}
-                                onClick={() =>
-                                    handleShowTimes(theatre.theaterId, times.showTime)
-                                }
-                            >
+                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: "10px", marginTop: "10px" }}>
+                        {theater.showtimes.length > 0 ? (
+                            theater.showtimes.map((times) => (
                                 <Box
+                                    key={times.showtimeId}
                                     sx={{
-                                        fontWeight: 600,
+                                        border: "1px solid blue",
+                                        width: "100px",
+                                        height: "40px",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        "&:hover": { backgroundColor: "#83cffa" },
                                         cursor: "pointer",
-                                        padding: "8px 12px",
                                     }}
+                                    onClick={() =>
+                                        handleShowTimes(theater.theaterId, times.showTime)
+                                    }
                                 >
                                     {times.showTime}
                                 </Box>
-                            </Box>
-                        ))}
+                            ))
+                        ) : (
+                            <Box>No showtimes available</Box>
+                        )}
                     </Box>
                 </Box>
             ))}
