@@ -7,7 +7,6 @@ import {
     StyledTypographyRememberMe 
 } from "./Login.styled";
 import { TextField } from "../../components/TextField";
-import { EyeHideIcon, EyeShowBlackIcon, LoginLogo } from "../../components/Icon/CustomIcons";
 import Button from "../../components/Button/Button";
 import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
@@ -98,7 +97,7 @@ const Login = () => {
   };
 
     return (
-        <Box sx={{ backgroundColor: "#ffffff", height: "88vh", padding: "54px" }}>
+        <Box sx={{ backgroundColor: "#ffffff", height: "93vh", padding: "24px" }}>
             <Box
                 sx={{
                     display: "flex",
@@ -109,7 +108,11 @@ const Login = () => {
                 }}
             >
                 <Box sx={{ width: "50%" }}>
-                    <LoginLogo />
+                <img
+                    src="https://cdn.pixabay.com/photo/2012/04/24/21/37/masks-40963_640.png"
+                    alt="Theater Screen"
+                    style={{ width: "100%", height: "600px", marginTop: "60px" }}
+                />
                 </Box>
                 <Box sx={{ width: "50%", padding: "100px" }}>
                     <Grid container rowSpacing={2} justifyContent={"center"}>

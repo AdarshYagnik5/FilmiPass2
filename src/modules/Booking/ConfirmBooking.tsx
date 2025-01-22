@@ -1,10 +1,12 @@
 import React from "react";
 import { Box, Typography, Card, CardContent, Divider } from "@mui/material";
 import { useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const ConfirmBooking = () => {
     const location = useLocation();
     const { seatNumber, showtime, theaters } = location.state || {};
+    const { t } = useTranslation();
 
     // Extract theater details
     const theater = theaters?.[0] || {};
@@ -15,23 +17,23 @@ const ConfirmBooking = () => {
             <Card sx={{ width: "80%", maxWidth: "600px", boxShadow: 3 }}>
                 <CardContent>
                     <Typography variant="h4" gutterBottom textAlign="center">
-                        Thank You for Booking Your Tickets!
+                        {t("confirmBooking.thankYou")}
                     </Typography>
                     <Divider sx={{ marginY: "15px" }} />
 
                     {/* Booking Details */}
                     <Box sx={{ marginBottom: "20px" }}>
                         <Typography variant="h6" gutterBottom>
-                            Theater Details
+                            {t("confirmBooking.theaterDetails")}
                         </Typography>
                         <Typography>
-                            <strong>Name:</strong> {theaterName || "N/A"}
+                            <strong>{t("confirmBooking.name")}:</strong> {theaterName || t("common.notAvailable")}
                         </Typography>
                         <Typography>
-                            <strong>Location:</strong> {theaterLocation || "N/A"}
+                            <strong>{t("confirmBooking.location")}:</strong> {theaterLocation || t("common.notAvailable")}
                         </Typography>
                         <Typography>
-                            <strong>Ticket Price:</strong> ₹{ticketPrice*seatNumber.length || "N/A"}
+                            <strong>{t("confirmBooking.ticketPrice")}:</strong> ₹{ticketPrice * seatNumber?.length || t("common.notAvailable")}
                         </Typography>
                     </Box>
 
@@ -39,21 +41,21 @@ const ConfirmBooking = () => {
 
                     <Box sx={{ marginBottom: "20px" }}>
                         <Typography variant="h6" gutterBottom>
-                            Show Details
+                            {t("confirmBooking.showDetails")}
                         </Typography>
                         <Typography>
-                            <strong>Showtime:</strong> {showtime || "N/A"}
+                            <strong>{t("confirmBooking.showtime")}:</strong> {showtime || t("common.notAvailable")}
                         </Typography>
                         <Typography>
-                            <strong>Seat Numbers:</strong> {seatNumber?.length > 0 ? seatNumber.join(", ") : "No seats selected"}
+                            <strong>{t("confirmBooking.seatNumbers")}:</strong> {seatNumber?.length > 0 ? seatNumber.join(", ") : t("confirmBooking.noSeatsSelected")}
                         </Typography>
                     </Box>
 
                     <Divider sx={{ marginY: "15px" }} />
-                    
+
                     {/* Confirmation Message */}
                     <Typography variant="h6" sx={{ textAlign: "center", marginTop: "20px", color: "green" }}>
-                        Your booking has been confirmed successfully!
+                        {t("confirmBooking.confirmationMessage")}
                     </Typography>
                 </CardContent>
             </Card>

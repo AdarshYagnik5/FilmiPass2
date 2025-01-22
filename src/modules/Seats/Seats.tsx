@@ -1,19 +1,41 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Checkbox, FormControlLabel } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../../components/Button/Button";
+import apiService from "../Api/ApiService";
+import { useTranslation } from "react-i18next";
 
 const Seats = () => {
+    const { t } = useTranslation();
     const location = useLocation();
     const navigate = useNavigate();
-    const { theaterId, showtime, theaters } = location.state || {};
-    console.log(showtime, theaterId, theaters);
+    const { theaterId, showtime, theaters, Theater, movieTitle, showDate } = location.state || {};
+    console.log("ggggggggg",showtime, theaterId, Theater, movieTitle, showDate,location);
     const capacity = theaters?.[0]?.capacity || 0; // Total capacity
 
     // Fixed number of columns
-    const columns = 5;
+    const columns = 10;
 
     const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
+    const [filledSeats, setFilledSeats] = useState<string[]>([]);
+
+    const todayDate = new Date();
+    const formattedDate = todayDate.toISOString().split('T')[0];
+    console.log("today date", formattedDate);
+
+    useEffect(() => {
+        const fetchSeats = async () => {
+            try {
+                const res = await apiService.get(`/filmipass/bookings/filled-seats/${movieTitle}/${Theater.theaterName}/${Theater.location}/${formattedDate}/${showtime}`);
+                setFilledSeats(res);
+                console.log(res);
+            }
+            catch (err) {
+                console.log(err);
+            }
+        }
+        fetchSeats();
+    }, [])
 
     // Handle checkbox click
     const handleSeatSelection = (seatNumber: number) => {
@@ -28,9 +50,31 @@ const Seats = () => {
         });
     };
 
-    const handleConfirmSeats = (seatNumber: number[]) => {
-        navigate('/confirm-seats', { state: { seatNumber, showtime, theaters } });
+    const handleConfirmSeats = async (seatNumber: number[]) => {
+        try {
+            const res = await apiService.post("/filmipass/bookings/create", {
+                movieName: movieTitle,
+                showtime: showtime,
+                theaterName: Theater.theaterName,
+                numberOfSeats: seatNumber.length,
+                totalPrice: Theater.ticketPrice * seatNumber.length,
+                bookingTime: new Date(),
+                seatNumbers: seatNumber.join(","),
+                city: Theater.location, // Check if this is valid
+                showTime: showtime,
+                showDate: formattedDate,
+            });
+
+            console.log(res);
+            navigate('/confirm-seats', { state: { seatNumber, showtime, theaters } });
+        }
+        catch (err) {
+            console.log(err);
+        }
+
     }
+
+
 
     return (
         <div>
@@ -50,7 +94,7 @@ const Seats = () => {
                 />
             </Box>
             <Box sx={{ marginTop: "20px", display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <h3>Select Your Seats</h3>
+                <h3>{t("screen.selectUrSeats")}</h3>
                 <div
                     style={{
                         display: "grid",
@@ -67,6 +111,8 @@ const Seats = () => {
                                     <Checkbox
                                         checked={selectedSeats.includes(seatNumber)}
                                         onChange={() => handleSeatSelection(seatNumber)}
+                                        disabled={filledSeats.includes(String(seatNumber))}
+                                        style={{ color: filledSeats.includes(String(seatNumber)) ? "red" : "green" }}
                                     />
                                 }
                                 label={`S${seatNumber}`}
@@ -81,8 +127,8 @@ const Seats = () => {
                 </div>
             </Box>
             <Box sx={{ marginTop: "20px", textAlign: "center" }}>
-                <h4>Selected Seats:</h4>
-                <p>{selectedSeats.length > 0 ? selectedSeats.join(", ") : "No seats selected"}</p>
+                <h4>{t("screen.selectedSeats")}:</h4>
+                <p>{selectedSeats.length > 0 ? selectedSeats.join(", ") : `${t("screen.noSeatsSelected")}`}</p>
             </Box>
             <Box sx={{ marginTop: "20px", display: "flex", justifyContent: "center" }}>
                 <Button
@@ -91,7 +137,7 @@ const Seats = () => {
                     size="small"
                     fullWidth
                     onClick={() => handleConfirmSeats(selectedSeats)}
-                    text="Book Seats"
+                    text={t("screen.bookSeats")}
                 />
             </Box>
         </div>

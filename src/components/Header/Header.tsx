@@ -3,6 +3,7 @@ import { Box, Toolbar } from '@mui/material';
 import { EndIconContainer, Headerstyle } from './Header.styled';
 import {  useNavigate } from 'react-router-dom';
 import Button from '../Button/Button';
+import LanguageSelector from '../Language/LanguageSelector';
 
 export interface HeaderProps {
   profileImageUrl?: string;
@@ -25,6 +26,9 @@ const Header: React.FC<HeaderProps> = () => {
             </Box>
           </Box>
           <EndIconContainer>
+            <Box sx={{ color :'white ' ,display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
+              <LanguageSelector/>
+            </Box>
             <Box >
               <Button text={'Logout'} onClick={handleLogout} css={{fontWeight:700, color:'white'}}></Button>
             </Box>
