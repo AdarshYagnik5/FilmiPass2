@@ -67,9 +67,15 @@ const ScreenTime = () => {
         );
     }
 
+    const filteredTheaters = theaters.filter((theater) =>
+        theater.showtimes.some((showtime) => showtime.movieId === movieId)
+    );
+
+    console.log(filteredTheaters);
+
     return (
         <div>
-            {theaters.map((theater) => (
+            {filteredTheaters.map((theater) => (
                 <Box
                     key={theater.theaterId}
                     sx={{
@@ -114,6 +120,7 @@ const ScreenTime = () => {
                     </Box>
                 </Box>
             ))}
+            {filteredTheaters.length === 0 && <Box sx={{fontSize:'20px', fontWeight:500}}>No theaters found for the selected movie.</Box>}
         </div>
     );
 };

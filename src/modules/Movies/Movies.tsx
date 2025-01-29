@@ -35,9 +35,11 @@ const Movies = () => {
     const navigate = useNavigate();
     const [deleteId, setDeleteId] = useState<number>();
     const [refreshScreen, setRefreshScreen] = useState(false);
-    const [location, setLocation] = useState("Hyderabad");
+    const [location, setLocation] = useState(localStorage.getItem("movieLocation") ? localStorage.getItem("movieLocation") : "Hyderabad");
 
     const { t } = useTranslation();
+
+    console.log("localStorage.getItem('movieLocation')", localStorage.getItem("movieLocation"));
 
     useEffect(() => {
         const fetchMovies = async () => {
@@ -103,6 +105,7 @@ const Movies = () => {
 
     const handleChangeLoc = (event: SelectChangeEvent) => {
         setLocation(event.target.value as string);
+        localStorage.setItem('movieLocation', event.target.value as string);
     };
 
     if (loading) return <Typography>{t("movie.loading")}</Typography>;
@@ -126,7 +129,7 @@ const Movies = () => {
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={location}
+                        value={location as string}
                         label={t("location")}
                         onChange={handleChangeLoc}
                     >
@@ -179,8 +182,8 @@ const Movies = () => {
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
-                                    <Button size="small" onClick={() => handleBookMovie(movie.title, movie.movieId)} text={t("movie.book")} />
-                                    <Button size="small" onClick={() => handleDeleteMovie(movie.movieId)} text={t("movie.delete")} />
+                                    <Button variant="primary" size="small" onClick={() => handleBookMovie(movie.title, movie.movieId)} text={t("movie.book")} />
+                                    <Button variant="primary" size="small" onClick={() => handleDeleteMovie(movie.movieId)} text={t("movie.delete")} />
                                 </CardActions>
                             </Card>
                         </Grid>

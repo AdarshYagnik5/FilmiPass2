@@ -14,8 +14,8 @@ const LanguageSelector = () => {
         console.log('Language changed')
     }
 
-    return <Box > {languages.map((lng)=>{
-        return <Button className={lng.code === i18n.language ? 'selected' : ""} sx={{color:'white'}} key={lng.code} onClick={()=>changeLanguage(lng.code)}>{lng.name}</Button>
+    return <Box sx={{display:'flex'}}> {languages.map((lng)=>{
+        return <Button sx={{backgroundColor : lng.code === i18n.language ? 'red' : '' , color:'white', border:'2px solid blue'}} key={lng.code} onClick={()=>changeLanguage(lng.code)}>{lng.name}</Button>
     })}</Box>
 }
 export default LanguageSelector

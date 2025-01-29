@@ -83,8 +83,57 @@ i18n
           common: {
             notAvailable: "N/A",
           },
+          login: {
+            title: "Login",
+            username: "Username",
+            usernamePlaceholder: "Enter email",
+            password: "Password",
+            passwordPlaceholder: "Enter password",
+            rememberMe: "Remember Me",
+            resetPassword: "Reset Password",
+            acknowledgments: "Acknowledgments, Licensing and Certification",
+            loginButton: "Login",
+            noAccount: "Don't have an account yet?",
+            createAccount: "Create an account",
+            showPassword: "Show password",
+            hidePassword: "Hide password",
+            successMessage: "Logged in Successfully",
+            errorMessage: "Login Failed",
+            emailRequired: "Email is required",
+            invalidEmail: "Invalid Email Address",
+            passwordRequired: "Password is required",
+            passwordMinLength: "Password must be at least 6 characters long"
+          },
+          signUp: {
+            title: "Sign Up",
+            firstName: "First Name",
+            firstNamePlaceholder: "Enter First Name",
+            firstNameRequired: "First Name is required",
+            lastName: "Last Name",
+            lastNamePlaceholder: "Enter Last Name",
+            lastNameRequired: "Last Name is required",
+            email: "Email Address",
+            emailPlaceholder: "Enter Email Address",
+            emailRequired: "Email is required",
+            emailInvalid: "Invalid Email Address",
+            phoneNumber: "Mobile Number",
+            phoneNumberPlaceholder: "Enter Mobile Number",
+            phoneNumberRequired: "Mobile Number is required",
+            phoneNumberInvalid: "Invalid Mobile Number",
+            password: "Password",
+            passwordPlaceholder: "Enter Password",
+            passwordRequired: "Password is required",
+            alreadyHaveAccount: "Already on FilmiPass?",
+            login: "Login",
+            signUpSuccess: "Sign up successfully",
+            signUpFailed: "Sign-up Failed",
+            submitButton: "Sign Up"
+          }
         },
       },
+
+
+
       hi: {
         translation: {
           greeting: "नमस्ते",
@@ -155,11 +204,59 @@ i18n
             },
             common: {
               notAvailable: "उपलब्ध नहीं"
+            },
+            login:{
+              title: "लॉग इन",
+              username: "उपयोगकर्ता नाम",
+              usernamePlaceholder: "ईमेल दर्ज करें",
+              password: "पासवर्ड",
+              passwordPlaceholder: "पासवर्ड दर्ज करें",
+              rememberMe: "मुझे याद रखें",
+              resetPassword: "पासवर्ड रीसेट करें",
+              acknowledgments: "स्वीकृति, लाइसेंसिंग और प्रमाणपत्र",
+              loginButton: "लॉग इन",
+              noAccount: "अभी तक खाता नहीं है?",
+              createAccount: "खाता बनाएं",
+              showPassword: "पासवर्ड दिखाएं",
+              hidePassword: "पासवर्ड छुपाएं",
+              successMessage: "सफलतापूर्वक लॉग इन किया गया",
+              errorMessage: "लॉग इन विफल हुआ",
+              emailRequired: "ईमेल आवश्यक है",
+              invalidEmail: "अमान्य ईमेल पता",
+              passwordRequired: "पासवर्ड आवश्यक है",
+              passwordMinLength: "पासवर्ड कम से कम 6 वर्ण होने चाहिए"
+            },
+            signUp:{
+              title: "साइन अप करें",
+              firstName: "पहला नाम",
+              firstNamePlaceholder: "पहला नाम दर्ज करें",
+              firstNameRequired: "पहला नाम आवश्यक है",
+              lastName: "उपनाम",
+              lastNamePlaceholder: "अंतिम नाम दर्ज करें",
+              lastNameRequired: "उपनाम आवश्यक है",
+              email: "ईमेल पता",
+              emailPlaceholder: "ईमेल पता दर्ज करें",
+              emailRequired: "ईमेल आवश्यक है",
+              emailInvalid: "अमान्य ईमेल पता",
+              phoneNumber: "मोबाइल नंबर",
+              phoneNumberPlaceholder: "मोबाइल नंबर दर्ज करें",
+              phoneNumberRequired: "मोबाइल नंबर आवश्यक है",
+              phoneNumberInvalid: "अमान्य मोबाइल नंबर",
+              password: "पासवर्ड",
+              passwordPlaceholder: "पासवर्ड दर्ज करें",
+              passwordRequired: "पासवर्ड आवश्यक है",
+              alreadyHaveAccount: "फिल्मीपास पर पहले से ही हैं?",
+              login: "लॉग इन",
+              signUpSuccess: "सफलतापूर्वक साइन अप करें",
+              signUpFailed: "साइन अप विफल हुआ",
+              submitButton: "साइन अप करें"
             }
           
           
         },
       },
+
+
       fr: {
         translation: {
           greeting: "Bonjour",
@@ -231,7 +328,54 @@ i18n
           },
           common:{
             notAvailable: "N/A"
+          },
+          login:{
+            title: "Connexion",
+            username: "Nom d'utilisateur",
+            usernamePlaceholder: "Entrez l'email",
+            password: "Mot de passe",
+            passwordPlaceholder: "Entrez le mot de passe",
+            rememberMe: "Se souvenir de moi",
+            resetPassword: "Réinitialiser le mot de passe",
+            acknowledgments: "Remerciements, Licence et Certification",
+            loginButton: "Connexion",
+            noAccount: "Vous n'avez pas encore de compte ?",
+            createAccount: "Créer un compte",
+            showPassword: "Afficher le mot de passe",
+            hidePassword: "Masquer le mot de passe",
+            successMessage: "Connecté avec succès",
+            errorMessage: "Échec de la connexion",
+            emailRequired: "L'email est requis",
+            invalidEmail: "Adresse e-mail invalide",
+            passwordRequired: "Le mot de passe est requis",
+            passwordMinLength: "Le mot de passe doit comporter au moins 6 caractères"
+          },
+          signUp:{
+            title: "S'inscrire",
+            firstName: "Prénom",
+            firstNamePlaceholder: "Entrez le prénom",
+            firstNameRequired: "Le prénom est requis",
+            lastName: "Nom de famille",
+            lastNamePlaceholder: "Entrez le nom de famille",
+            lastNameRequired: "Le nom de famille est requis",
+            email: "Adresse e-mail",
+            emailPlaceholder: "Entrez l'adresse e-mail",
+            emailRequired: "L'email est requis",
+            emailInvalid: "Adresse e-mail invalide",
+            phoneNumber: "Numéro de téléphone",
+            phoneNumberPlaceholder: "Entrez le numéro de téléphone",
+            phoneNumberRequired: "Le numéro de téléphone est requis",
+            phoneNumberInvalid: "Numéro de téléphone invalide",
+            password: "Mot de passe",
+            passwordPlaceholder: "Entrez le mot de passe",
+            passwordRequired: "Le mot de passe est requis",
+            alreadyHaveAccount: "Déjà sur FilmiPass ?",
+            login: "Connexion",
+            signUpSuccess: "Inscription réussie",
+            signUpFailed: "Échec de l'inscription",
+            submitButton: "S'inscrire"
           }
+
         },
       },
     },

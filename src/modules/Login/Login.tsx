@@ -12,8 +12,10 @@ import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import apiService from "../Api/ApiService";
 import { Toast } from "../../components/Toast";
+import { useTranslation } from "react-i18next";
 
 const Login = () => {
+    const { t } = useTranslation();
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [error, setError] = useState({ email: "", password: "" });
@@ -22,17 +24,16 @@ const Login = () => {
     const [showToast, setShowToast] = useState<boolean>(false);
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
-
     const navigate = useNavigate();
 
     const validateField = (field: string, value: string): string => {
         if (field === "email") {
-            if (!value.trim()) return "Email is required";
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return "Invalid Email Address";
+            if (!value.trim()) return t("login.emailRequired");
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return t("login.invalidEmail");
         }
         if (field === "password") {
-            if (!value.trim()) return "Password is required";
-            if (value.length < 5) return "Password must be at least 6 characters long";
+            if (!value.trim()) return t("login.passwordRequired");
+            if (value.length < 5) return t("login.passwordMinLength");
         }
         return "";
     };
@@ -65,18 +66,18 @@ const Login = () => {
             if (response) {
                 localStorage.setItem("token", response.jwtToken);
                 setShowToast(true);
-                setMessage("Logged in Successfully");
+                setMessage(t("login.successMessage"));
                 setMessageType("success");
                 navigate("/movies");
             } else {
                 setShowToast(true);
-                setMessage("Login Failed");
+                setMessage(t("login.errorMessage"));
                 setMessageType("error");
             }
         } catch (error) {
             console.error("Login failed:", error);
             setShowToast(true);
-            setMessage("Login Failed");
+            setMessage(t("login.errorMessage"));
             setMessageType("error");
         } finally {
             setShowToast(true);
@@ -87,14 +88,13 @@ const Login = () => {
         navigate("/sign-up");
     }, [navigate]);
 
-    
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
+    const handleClickShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
 
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-  };
+    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+    };
 
     return (
         <Box sx={{ backgroundColor: "#ffffff", height: "93vh", padding: "24px" }}>
@@ -117,14 +117,14 @@ const Login = () => {
                 <Box sx={{ width: "50%", padding: "100px" }}>
                     <Grid container rowSpacing={2} justifyContent={"center"}>
                         <Grid item xs={10}>
-                            <LoginTitle>Login</LoginTitle>
+                            <LoginTitle>{t("login.title")}</LoginTitle>
                         </Grid>
                         <Grid item xs={10}>
                             <TextField
                                 id="email"
                                 name="email"
-                                label="Username"
-                                placeholder="Enter email"
+                                label={t("login.username")}
+                                placeholder={t("login.usernamePlaceholder")}
                                 required
                                 value={email}
                                 handleChange={handleChange}
@@ -136,30 +136,30 @@ const Login = () => {
                         </Grid>
                         <Grid item xs={10}>
                             <TextField
-                                      id="password"
-                                      name="password"
-                                      label="Password"
-                                      placeholder="Enter password"
-                                      required
-                                      value={password}
-                                      handleChange={handleChange}
-                                      textAlign="left"
-                                      gap="5px"
-                                      style={{ height: "40px" }}
-                                      error={!!error.password}
-                                      errorMsg={error.password}
-                                      type={showPassword ? 'text' : 'password'}
-                                      endAdornment={
-                                        <IconButton
-                                          aria-label="toggle password visibility"
-                                          onClick={handleClickShowPassword}
-                                          onMouseDown={handleMouseDownPassword}
-                                          disableRipple
-                                        >
-                                          {showPassword ? <Box sx={{fontSize:"16px"}}>Hide password</Box>:  <Box sx={{fontSize:"16px"}}>Show password</Box>}
-                                        </IconButton>
-                                      }
-                                  />
+                                id="password"
+                                name="password"
+                                label={t("login.password")}
+                                placeholder={t("login.passwordPlaceholder")}
+                                required
+                                value={password}
+                                handleChange={handleChange}
+                                textAlign="left"
+                                gap="5px"
+                                style={{ height: "40px" }}
+                                error={!!error.password}
+                                errorMsg={error.password}
+                                type={showPassword ? 'text' : 'password'}
+                                endAdornment={
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleClickShowPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                        disableRipple
+                                    >
+                                        {showPassword ? <Box sx={{fontSize:"16px"}}>{t("login.hidePassword")}</Box> : <Box sx={{fontSize:"16px"}}>{t("login.showPassword")}</Box>}
+                                    </IconButton>
+                                }
+                            />
                         </Grid>
                         <Grid item xs={10}>
                             <StyledBox>
@@ -169,10 +169,10 @@ const Login = () => {
                                         disabled={false}
                                         size="medium"
                                     />
-                                    <StyledTypographyRememberMe>Remember Me</StyledTypographyRememberMe>
+                                    <StyledTypographyRememberMe>{t("login.rememberMe")}</StyledTypographyRememberMe>
                                 </Box>
                                 <StyledLink component="button" underline="none" variant="body2">
-                                    Reset Password
+                                    {t("login.resetPassword")}
                                 </StyledLink>
                             </StyledBox>
                         </Grid>
@@ -183,23 +183,23 @@ const Login = () => {
                                 size="small"
                                 fullWidth
                                 onClick={handleSubmit}
-                                text="Login"
+                                text={t("login.loginButton")}
                             />
                         </Grid>
 
                         <Grid item xs={10}>
                             <StyledTypographyAck>
-                                Acknowledgments, Licensing and Certification
+                                {t("login.acknowledgments")}
                             </StyledTypographyAck>
                         </Grid>
 
                         <Grid item xs={10} sx={{ marginTop: "40px" }}>
-                            <StyledTypographyAck>Don't have an account yet?</StyledTypographyAck>
+                            <StyledTypographyAck>{t("login.noAccount")}</StyledTypographyAck>
                             <StyledTypographyAck
                                 sx={{ color: "blue", cursor: "pointer" }}
                                 onClick={handleSignUpSubmit}
                             >
-                                Create an account
+                                {t("login.createAccount")}
                             </StyledTypographyAck>
                         </Grid>
                     </Grid>

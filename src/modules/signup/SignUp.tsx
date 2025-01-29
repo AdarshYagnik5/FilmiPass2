@@ -6,6 +6,7 @@ import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import apiService from "../Api/ApiService";
 import { Toast } from "../../components/Toast";
+import { useTranslation } from "react-i18next";
 
 interface signUp {
   firstName: string;
@@ -17,6 +18,7 @@ interface signUp {
 }
 
 const SignUp = () => {
+  const { t } = useTranslation();
   const [userDetails, setUserDetails] = useState<signUp>({
     firstName: "",
     lastName: "",
@@ -41,19 +43,19 @@ const SignUp = () => {
 
   const validateFields = () => {
     const newErrors = {
-      firstName: userDetails.firstName.trim() ? "" : "First Name is required",
-      lastName: userDetails.lastName.trim() ? "" : "Last Name is required",
+      firstName: userDetails.firstName.trim() ? "" : t("signUp.firstNameRequired"),
+      lastName: userDetails.lastName.trim() ? "" : t("signUp.lastNameRequired"),
       email: userDetails.email.trim()
         ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userDetails.email)
           ? ""
-          : "Invalid Email Address"
-        : "Email is required",
+          : t("signUp.emailInvalid")
+        : t("signUp.emailRequired"),
       phoneNumber: userDetails.phoneNumber.trim()
         ? /^\d{10}$/.test(userDetails.phoneNumber)
           ? ""
-          : "Invalid Mobile Number"
-        : "Mobile Number is required",
-      password: userDetails.password.trim() ? "" : "Password is required",
+          : t("signUp.phoneNumberInvalid")
+        : t("signUp.phoneNumberRequired"),
+      password: userDetails.password.trim() ? "" : t("signUp.passwordRequired"),
     };
 
     setErrors(newErrors);
@@ -68,17 +70,17 @@ const SignUp = () => {
       const response = await apiService.post("/auth/create-user", userDetails, true);
       if (response) {
         navigate("/login");
-        setMessage("Sign up successfully");
+        setMessage(t("signUp.signUpSuccess"));
         setMessageType("success");
         setShowToast(true);
       } else {
-        setMessage("Sign-up Failed");
+        setMessage(t("signUp.signUpFailed"));
         setMessageType("error");
         setShowToast(true);
       }
     } catch (error) {
       console.error("Sign-up failed:", error);
-      setMessage("Sign-up Failed");
+      setMessage(t("signUp.signUpFailed"));
       setMessageType("error");
       setShowToast(true);
     }
@@ -114,14 +116,14 @@ const SignUp = () => {
         <Box sx={{ width: "50%", padding: "100px" }}>
           <Grid container rowSpacing={2} justifyContent={"center"}>
             <Grid item xs={10}>
-              <LoginTitle>Sign Up</LoginTitle>
+              <LoginTitle>{t("signUp.title")}</LoginTitle>
             </Grid>
             <Grid item xs={10} gap={2} sx={{ display: "flex" }}>
               <TextField
                 id={"firstName"}
                 name="firstName"
-                label="First Name"
-                placeholder="Enter first name"
+                label={t("signUp.firstName")}
+                placeholder={t("signUp.firstNamePlaceholder")}
                 required={true}
                 value={userDetails?.firstName}
                 handleChange={handleChange}
@@ -131,8 +133,8 @@ const SignUp = () => {
               <TextField
                 id={"lastName"}
                 name="lastName"
-                label="Last Name"
-                placeholder="Enter Last Name"
+                label={t("signUp.lastName")}
+                placeholder={t("signUp.lastNamePlaceholder")}
                 required={true}
                 value={userDetails?.lastName}
                 handleChange={handleChange}
@@ -144,8 +146,8 @@ const SignUp = () => {
               <TextField
                 id={"email"}
                 name="email"
-                label="Email Address"
-                placeholder="Enter Email Address"
+                label={t("signUp.email")}
+                placeholder={t("signUp.emailPlaceholder")}
                 required={true}
                 value={userDetails?.email}
                 handleChange={handleChange}
@@ -155,8 +157,8 @@ const SignUp = () => {
               <TextField
                 id={"phoneNumber"}
                 name="phoneNumber"
-                label="Mobile Number"
-                placeholder="Enter Mobile Number"
+                label={t("signUp.phoneNumber")}
+                placeholder={t("signUp.phoneNumberPlaceholder")}
                 required={true}
                 value={userDetails?.phoneNumber}
                 handleChange={handleChange}
@@ -168,8 +170,8 @@ const SignUp = () => {
               <TextField
                 id={"password"}
                 name="password"
-                label="Password"
-                placeholder="Enter Password"
+                label={t("signUp.password")}
+                placeholder={t("signUp.passwordPlaceholder")}
                 required={true}
                 value={userDetails?.password}
                 handleChange={handleChange}
@@ -184,16 +186,16 @@ const SignUp = () => {
                 size="small"
                 fullWidth
                 onClick={handleSubmit}
-                text={"Sign Up"}
+                text={t("signUp.submitButton")}
               />
             </Grid>
             <Grid item xs={10} sx={{ marginTop: "40px" }}>
-              <StyledTypographyAck>Already on FilmiPass ?</StyledTypographyAck>
+              <StyledTypographyAck>{t("signUp.alreadyHaveAccount")}</StyledTypographyAck>
               <StyledTypographyAck
                 sx={{ color: "blue", cursor: "pointer" }}
                 onClick={handleLoginSubmit}
               >
-                Login
+                {t("signUp.login")}
               </StyledTypographyAck>
             </Grid>
           </Grid>
