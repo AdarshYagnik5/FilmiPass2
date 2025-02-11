@@ -37,14 +37,11 @@ const Seats = () => {
         fetchSeats();
     }, [])
 
-    // Handle checkbox click
     const handleSeatSelection = (seatNumber: number) => {
         setSelectedSeats((prevSelectedSeats) => {
             if (prevSelectedSeats.includes(seatNumber)) {
-                // Deselect the seat
                 return prevSelectedSeats.filter((seat) => seat !== seatNumber);
             } else {
-                // Select the seat
                 return [...prevSelectedSeats, seatNumber];
             }
         });

@@ -66,6 +66,7 @@ i18n
             selectedSeats: "Selected Seats",
             noSeatsSelected: "No seats selected",
             bookSeats: "Book Seats",
+            noShowtimes: "No showtimes available for selected movie",
           },
           confirmBooking: {
             thankYou: "Thank You for Booking Your Tickets!",
@@ -189,6 +190,7 @@ i18n
             selectedSeats: "चयनित सीटें",
             noSeatsSelected: "कोई सीट नहीं चुनी गई",
             bookSeats: "सीटें बुक करें",
+            noShowtimes: "चयनित फिल्म के लिए कोई शोटाइम उपलब्ध नहीं है",
           },
             confirmBooking: {
               thankYou: "आपके टिकट बुक करने के लिए धन्यवाद!",
@@ -313,6 +315,7 @@ i18n
             selectedSeats: "Sièges sélectionnés",
             noSeatsSelected: "Aucun siège sélectionné",
             bookSeats: "Réserver des sièges",
+            noShowtimes: "Aucun horaire disponible pour le film sélectionné",
           },
           confirmBooking:{
             thankYou: "Merci d'avoir réservé vos billets !",

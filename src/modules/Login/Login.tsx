@@ -66,6 +66,15 @@ const Login = () => {
             if (response) {
                 localStorage.setItem("token", response.jwtToken);
                 setShowToast(true);
+
+                try{
+                    const user = await apiService.get(`/filmipass/user/byEmail?email=${email}`, false);
+                    localStorage.setItem("user", JSON.stringify(user));
+                    console.log("user", JSON.stringify(user));
+                }catch(err){
+                    console.error("Error fetching user data:", err);
+                }
+
                 setMessage(t("login.successMessage"));
                 setMessageType("success");
                 navigate("/movies");

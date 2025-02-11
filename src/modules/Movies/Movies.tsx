@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
@@ -36,6 +37,12 @@ const Movies = () => {
     const [deleteId, setDeleteId] = useState<number>();
     const [refreshScreen, setRefreshScreen] = useState(false);
     const [location, setLocation] = useState(localStorage.getItem("movieLocation") ? localStorage.getItem("movieLocation") : "Hyderabad");
+
+    const [user, setUser] = useState(() => {
+        const user = localStorage.getItem("user");
+        return user ? JSON.parse(user) : null;
+    });
+
 
     const { t } = useTranslation();
 
@@ -149,9 +156,11 @@ const Movies = () => {
                         sx={{ marginRight: '10px', width: '400px' }}
                     />
                 </Box>
-                <Box sx={{ display: "flex", alignItems: 'center' }}>
-                    <Button size="small" onClick={handleAddMovie} variant="primary" text={t("movie.addMovie")} />
-                </Box>
+                {user && user.role === "ADMIN" &&
+                    <Box sx={{ display: "flex", alignItems: 'center' }}>
+                        <Button size="small" onClick={handleAddMovie} variant="primary" text={t("movie.addMovie")} />
+                    </Box>
+                }
             </Box>
             <Grid container spacing={3} padding={3}>
                 {filteredMovies.length > 0 ? (
@@ -183,7 +192,9 @@ const Movies = () => {
                                 </CardContent>
                                 <CardActions>
                                     <Button variant="primary" size="small" onClick={() => handleBookMovie(movie.title, movie.movieId)} text={t("movie.book")} />
+                                        {user && user.role === "ADMIN" && 
                                     <Button variant="primary" size="small" onClick={() => handleDeleteMovie(movie.movieId)} text={t("movie.delete")} />
+                                        }
                                 </CardActions>
                             </Card>
                         </Grid>

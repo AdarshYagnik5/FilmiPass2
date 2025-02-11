@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import apiService from "../Api/ApiService";
 import { Box } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 interface Showtime {
     showtimeId: number;
@@ -27,6 +28,8 @@ const ScreenTime = () => {
     const statelocation = useLocation();
     const navigate = useNavigate();
     const { location, movieTitle, movieId } = statelocation.state || {};
+    
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (!location) return;
@@ -120,7 +123,7 @@ const ScreenTime = () => {
                     </Box>
                 </Box>
             ))}
-            {filteredTheaters.length === 0 && <Box sx={{fontSize:'20px', fontWeight:500}}>No theaters found for the selected movie.</Box>}
+            {filteredTheaters.length === 0 && <Box sx={{fontSize:'20px', fontWeight:500}}>{t("screen.noShowtimes")}</Box>}
         </div>
     );
 };
